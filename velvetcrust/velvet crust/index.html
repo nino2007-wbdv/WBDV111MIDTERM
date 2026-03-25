@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Golden Ribbon</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg, #ff9ecf, #ffcce6);
+}
+
+/* NAVBAR */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.2);
+    position: sticky;
+    top: 0;
+}
+
+nav button {
+    margin: 5px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+    background: rgba(255,255,255,0.4);
+    cursor: pointer;
+}
+
+nav button:hover {
+    background: #ff69b4;
+    color: white;
+}
+
+/* BANNER CAROUSEL */
+.banner {
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.banner-slide.active {
+    opacity: 1;
+}
+
+.banner-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+}
+
+.banner-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* SECTIONS */
+section {
+    padding: 20px;
+}
+
+/* GRID */
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* CARD */
+.card {
+    width: 200px;
+    padding: 10px;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.3);
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+button.add {
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    background: #ff69b4;
+    color: white;
+    cursor: pointer;
+}
+
+/* CART */
+#cartItems {
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.3);
+    padding: 20px;
+    border-radius: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+/* LOGIN */
+.login-box {
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.3);
+    padding: 20px;
+    border-radius: 20px;
+    width: 250px;
+    margin: auto;
+}
+
+input {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    border: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>🍰 Gold Ribbon</h2>
+    <nav>
+        <button onclick="showPage('home')">Home</button>
+        <button onclick="showPage('shop')">Shop</button>
+        <button onclick="showPage('cart')">Cart (<span id="count">0</span>)</button>
+        <button onclick="showPage('login')">Login</button>
+        <button onclick="logout()">Logout</button>
+    </nav>
+</header>
+
+<!-- BANNER CAROUSEL -->
+<div class="banner">
+    <div class="banner-slide active" style="background-image: url('ban.png');"></div>
+    <div class="banner-slide" style="background-image: url('store.jpg');"></div>
+    <div class="banner-slide" style="background-image: url('stor.jpg');"></div>
+    <div class="banner-overlay"></div>
+    <div class="banner-content">
+        <h1>Welcome to Gold Ribbon 🎂</h1>
+        <p>Delicious cakes made with love</p>
+    </div>
+</div>
+
+<!-- HOME -->
+<section id="home">
+    <h2>Our Cakes</h2>
+    <div class="grid" id="cakeList"></div>
+</section>
+
+<!-- SHOP -->
+<section id="shop" style="display:none;">
+    <h2>Shop</h2>
+    <div class="grid" id="shopList"></div>
+</section>
+
+<!-- CART -->
+<section id="cart" style="display:none;">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" style="display:none;">
+    <div class="login-box">
+        <h3>Login</h3>
+        <input id="user" placeholder="Username"><br>
+        <input id="pass" type="password" placeholder="Password"><br>
+        <button onclick="login()">Login</button>
+        <p id="loginMsg"></p>
+    </div>
+</section>
+
+<script>
+const cakes = [
+    { name:"Chocolate Cake", price:850, img:"choco.jpg" },
+    { name:"Strawberry Cake", price:950, img:"strawberry.jpg" },
+    { name:"Vanilla Cake", price:950, img:"vanilla.jpeg" },
+    { name:"Red Velvet", price:800, img:"red velvet.jpg" },
+    { name:"Mocha Cake", price:850, img:"mocha.jpg" }
+	
+];
+
+let cart = [];
+let isLoggedIn = false;
+
+/* DISPLAY CAKES */
+function displayCakes() {
+    const home = document.getElementById("cakeList");
+    const shop = document.getElementById("shopList");
+
+    home.innerHTML = "";
+    shop.innerHTML = "";
+
+    cakes.forEach((cake, index) => {
+        let card = `
+        <div class="card">
+            <img src="${cake.img}" alt="${cake.name}">
+            <h4>${cake.name}</h4>
+            <p>₱${cake.price}</p>
+            <button class="add" onclick="addToCart(${index})">Order</button>
+        </div>`;
+        home.innerHTML += card;
+        shop.innerHTML += card;
+    });
+}
+
+/* ADD TO CART */
+function addToCart(index) {
+    if(!isLoggedIn){
+        alert("Please login first!");
+        showPage('login');
+        return;
+    }
+    cart.push(cakes[index]);
+    updateCart();
+    alert("Added to cart!");
+}
+
+/* UPDATE CART */
+function updateCart() {
+    const cartDiv = document.getElementById("cartItems");
+    const count = document.getElementById("count");
+
+    if(cart.length === 0){
+        cartDiv.innerHTML = "<p>Your cart is empty 🛒</p>";
+        count.innerText = 0;
+        return;
+    }
+
+    cartDiv.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        total += item.price;
+        cartDiv.innerHTML += `
+        <p>${item.name} - ₱${item.price}
+        <button onclick="removeItem(${index})">❌</button></p>`;
+    });
+
+    cartDiv.innerHTML += `<h3>Total: ₱${total}</h3>`;
+    count.innerText = cart.length;
+}
+
+/* REMOVE ITEM */
+function removeItem(index) {
+    cart.splice(index, 1);
+    updateCart();
+}
+
+/* PAGE NAVIGATION */
+function showPage(page) {
+    if((page === "cart" || page === "shop") && !isLoggedIn){
+        alert("Login muna bago mag shop/cart!");
+        page = "login";
+    }
+    document.querySelectorAll("section").forEach(sec => sec.style.display="none");
+    document.getElementById(page).style.display="block";
+}
+
+/* LOGIN */
+function login() {
+    let user = document.getElementById("user").value;
+    let pass = document.getElementById("pass").value;
+
+    if(user === "Nino@Gmail.com" && pass === "2007"){
+        isLoggedIn = true;
+        document.getElementById("loginMsg").innerText = "Login successful!";
+        alert("Welcome!");
+        showPage("home");
+    } else {
+        document.getElementById("loginMsg").innerText = "Wrong credentials";
+    }
+}
+
+/* LOGOUT */
+function logout(){
+    isLoggedIn = false;
+    cart = [];
+    updateCart();
+    alert("Logged out!");
+    showPage("home");
+}
+
+/* BANNER AUTO SLIDE */
+let slides = document.querySelectorAll(".banner-slide");
+let index = 0;
+
+setInterval(() => {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+}, 3000);
+
+/* INIT */
+displayCakes();
+updateCart();
+</script>
+
+</body>
+</html>
