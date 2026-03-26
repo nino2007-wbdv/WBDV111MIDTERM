@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - HealthSync</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+    <button onclick="showTab('home')">🏠 Home</button>
+    <button onclick="showTab('about')">ℹ️ About</button>
+    <button onclick="showTab('services')">🩺 Services</button>
+    <button onclick="showTab('doctors')">👨‍⚕️ Doctors</button>
+    <button onclick="showTab('appointments')">📅 Appointments</button>
+    <button onclick="showTab('contact')">📞 Contact</button>
+    <button onclick="toggleDarkMode()">🌙</button>
+    <button onclick="logout()">🚪 Logout</button>
+</div>
+
+<div class="content">
+
+    <div id="home" class="tab active">
+        <div class="carousel">
+            <img src="bldg.jpg" class="slide active">
+            <img src="hospi.jpg" class="slide">
+            <img src="olfu.png" class="slide">
+        </div>
+        <h2>Welcome to HealthSync Clinic!</h2>
+    </div>
+
+    <div id="about" class="tab">
+        <h2>About</h2>
+        <p>We provide quality healthcare services.</p>
+    </div>
+
+    <div id="services" class="tab">
+        <h2>Services</h2>
+        <p>Check-up, Lab Test, Vaccination</p>
+    </div>
+
+    <div id="doctors" class="tab">
+        <h2>Our Doctors</h2>
+        <ul>
+            <li onclick="showDoctor('vico')">Dr. Vico Roma - Cardiologist</li>
+            <li onclick="showDoctor('joey')">Dr. Joey Magquilat - Pediatrician</li>
+            <li onclick="showDoctor('james')">Dr. James Paulo Enricoso - Medical Doctor</li>
+        </ul>
+        <div id="doctor-info">
+            <p>Click a doctor's name to see details.</p>
+        </div>
+    </div>
+
+    <div id="appointments" class="tab">
+        <h2>Appointments</h2>
+        <form onsubmit="bookAppointment(event)">
+            <input type="text" id="name" placeholder="Your Name" required><br><br>
+            <input type="date" id="date" required><br><br>
+            <select id="doctor" required>
+                <option value="">Select Doctor</option>
+                <option>Dr. Vico Roma</option>
+                <option>Dr. Joey Magquilat</option>
+                <option>Dr. James Paulo Enricoso</option>
+            </select><br><br>
+            <button type="submit">Book Now</button>
+        </form>
+        <p id="confirmation"></p>
+    </div>
+
+    <div id="contact" class="tab">
+        <h2>Contact</h2>
+        <p>09123456789</p>
+    </div>
+
+</div>
+
+<script>
+function showTab(tabId){
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+}
+
+function showDoctor(d){
+    let info="";
+    if(d==='vico') info=`<img src="images/vico.jpg"><h3>Dr. Vico Roma</h3><p>Cardiologist</p>`;
+    else if(d==='joey') info=`<img src="images/joey.jpg"><h3>Dr. Joey Magquilat</h3><p>Pediatrician</p>`;
+    else info=`<img src="images/james.jpg"><h3>Dr. James Paulo Enricoso</h3><p>Medical Doctor</p>`;
+    document.getElementById('doctor-info').innerHTML=info;
+}
+
+function toggleDarkMode(){ document.body.classList.toggle('dark-mode'); }
+
+function bookAppointment(e){
+    e.preventDefault();
+    let n=document.getElementById('name').value;
+    let d=document.getElementById('date').value;
+    let doc=document.getElementById('doctor').value;
+    document.getElementById('confirmation').innerHTML=`✅ Appointment booked for ${n} with ${doc} on ${d}`;
+    e.target.reset();
+}
+
+let index=0;
+setInterval(()=>{
+    let slides=document.querySelectorAll('.slide');
+    slides.forEach(s=>s.classList.remove('active'));
+    index=(index+1)%slides.length;
+    slides[index].classList.add('active');
+},3000);
+
+function logout(){
+    window.location.href="index.html";
+}
+</script>
+
+</body>
+</html>
