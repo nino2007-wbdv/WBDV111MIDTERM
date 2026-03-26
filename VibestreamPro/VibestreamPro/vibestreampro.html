@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>EmmanMusic</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#121212;
+    color:white;
+}
+
+/* LOGIN */
+.login-container{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-container input{
+    margin:10px;
+    padding:10px;
+    width:220px;
+    border:none;
+    border-radius:5px;
+}
+
+.login-container button{
+    padding:10px 20px;
+    background:#1db954;
+    border:none;
+    color:white;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+#error{
+    color:red;
+}
+
+/* MUSIC PAGE */
+.music-container{
+    display:none;
+    height:100vh;
+    display:flex;
+}
+
+.sidebar{
+    width:250px;
+    background:black;
+    padding:20px;
+    height:100%;
+}
+
+.sidebar h2{
+    margin-top:0;
+}
+
+.sidebar ul{
+    list-style:none;
+    padding:0;
+}
+
+.sidebar li{
+    padding:10px;
+    cursor:pointer;
+}
+
+.sidebar li:hover{
+    background:#1db954;
+}
+
+.logout{
+    margin-top:20px;
+    padding:8px 15px;
+    background:red;
+    border:none;
+    color:white;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.player{
+    flex:1;
+    padding:50px;
+    text-align:center;
+}
+
+.player img{
+    width:300px;
+    height:300px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
+audio{
+    width:80%;
+    margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-container" id="loginPage">
+    <h1>EmmanMusic</h1>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="error"></p>
+</div>
+
+<!-- MUSIC LIBRARY -->
+<div class="music-container" id="musicPage">
+    <div class="sidebar">
+        <h2>Library</h2>
+        <ul id="songList">
+            <!-- Song list populated by JS -->
+        </ul>
+        <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="player">
+        <h2 id="nowPlaying">Select a song</h2>
+        <img id="albumArt" src="" alt="Album Art">
+        <audio id="audioPlayer" controls></audio>
+    </div>
+</div>
+
+<script>
+// Song data: {name, file, image}
+const songs = [
+    {name: "Ang Wakas By Arthur Miguel", file:"ang wakas.mp3", image:"wakas.jpg"},
+    {name: "Kalapastangan By Fitter Karma", file:"Kalapastangan.mp3", image:"kala.jpg"},
+    {name: "Palayo sa mundo By Arthur Nery", file:"Palayo sa mundo.mp3", image:"malayo.jpg"},
+    {name: "Tahanan By El Manu", file:"tahanan.mp3", image:"El Man.jpg"},
+    {name: "Paano na kaya By Bugoy", file:"pano na kaya.mp3", image:"Bugoy.jpg"}
+];
+
+// Populate song list
+const songList = document.getElementById("songList");
+songs.forEach((song, index)=>{
+    const li = document.createElement("li");
+    li.innerText = song.name;
+    li.onclick = ()=>playSong(index);
+    songList.appendChild(li);
+});
+
+function login(){
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    if(user === "admin" && pass === "1234"){
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("musicPage").style.display = "flex";
+    }else{
+        document.getElementById("error").innerText = "Invalid login!";
+    }
+}
+
+function logout(){
+    document.getElementById("musicPage").style.display = "none";
+    document.getElementById("loginPage").style.display = "flex";
+}
+
+function playSong(index){
+    const player = document.getElementById("audioPlayer");
+    const nowPlaying = document.getElementById("nowPlaying");
+    const albumArt = document.getElementById("albumArt");
+
+    player.src = songs[index].file;
+    albumArt.src = songs[index].image;
+    nowPlaying.innerText = "Now Playing: " + songs[index].name;
+    player.play();
+}
+</script>
+
+</body>
+</html>
