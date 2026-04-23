@@ -1,0 +1,137 @@
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f4f4;
+}
+
+/* HEADER */
+header {
+    background: #8B0000;
+    color: white;
+    padding: 15px 20px;
+}
+
+/* NAVBAR */
+nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+/* LINKS */
+nav a, .dropbtn {
+    color: white;
+    text-decoration: none;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+nav a:hover, .dropbtn:hover {
+    background: white;
+    color: #8B0000;
+}
+
+/* DROPDOWN */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 45px;
+    left: 0;
+    background: white;
+    min-width: 180px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    z-index: 999;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 12px;
+    color: #8B0000;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-content a:hover {
+    background: #f1f1f1;
+}
+
+/* MAIN CONTAINER */
+.container {
+    padding: 20px;
+}
+
+/* PRODUCT CARD (REALISTIC STORE LOOK) */
+.card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+/* PRODUCT IMAGE */
+.card img {
+    width: 100%;
+    max-width: 250px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+/* PRODUCT TITLE */
+.card h3 {
+    color: #8B0000;
+    margin-bottom: 5px;
+}
+
+/* BUTTONS */
+button {
+    background: #8B0000;
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #a30000;
+}
+
+/* INPUT STYLE */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* DROPDOWN SHOW CLASS (IMPORTANT FIX) */
+.show {
+    display: block;
+}
