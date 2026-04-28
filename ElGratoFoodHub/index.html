@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>El Grato | Menu</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+<div class="logo-area">
+    <img src="logo.jpeg" class="logo">
+    <h2>El Grato Food Hub</h2>
+</div>
+
+<nav>
+    <a href="index.html">Home</a>
+
+    <div class="dropdown">
+        <button class="dropbtn" onclick="toggleMenu()">Menu ▾</button>
+        <div class="dropdown-content" id="menuDrop">
+            <a href="regular.html">Regular</a>
+            <a href="special.html">Special</a>
+        </div>
+    </div>
+
+    <a href="order.html">Cart</a>
+    <a href="about.html">About</a>
+    <a href="login.html">Login</a>
+</nav>
+
+</header>
+
+
+<div class="container">
+
+<h2 class="page-title"> Featured Menu</h2>
+
+<div class="menu-grid">
+
+    <div class="food-card">
+        <img src="bellymenu.jpeg">
+        <button onclick="location.href='regular.html'">Order</button>
+    </div>
+
+    <div class="food-card">
+        <img src="pata.jpeg">
+        <button onclick="location.href='regular.html'">Order</button>
+    </div>
+
+    <div class="food-card">
+        <img src="itik.jpeg">
+        <button onclick="location.href='special.html'">Order</button>
+    </div>
+
+    <div class="food-card">
+        <img src="menu.jpeg">
+        <button onclick="location.href='special.html'">Order</button>
+    </div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
