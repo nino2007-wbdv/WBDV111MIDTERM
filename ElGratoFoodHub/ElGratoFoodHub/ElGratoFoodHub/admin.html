@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body onload="initAdmin()">
+
+<header>
+    <h2>Admin Dashboard</h2>
+
+    <nav>
+        <a href="#" onclick="showTab('dashboard')">Dashboard</a>
+        <a href="#" onclick="showTab('users')">User Management</a>
+        <a href="#" onclick="showTab('food')">Food Management</a>
+        <a href="#" onclick="logout()">Logout</a>
+    </nav>
+</header>
+
+<!-- ================= DASHBOARD ================= -->
+<section id="dashboard" class="admin-section">
+    <div class="box">
+        <h3>Total Orders</h3>
+        <p id="orderCount">0</p>
+    </div>
+
+    <div class="box">
+        <h3>Total Users</h3>
+        <p id="userCount">0</p>
+    </div>
+
+    <div class="box">
+        <h3>Total Sales</h3>
+        <p id="salesTotal">₱0</p>
+    </div>
+</section>
+
+<!-- ================= USERS ================= -->
+<section id="users" class="admin-section" style="display:none;">
+    <h1>User Management</h1>
+    <div id="userList"></div>
+</section>
+
+<!-- ================= FOOD ================= -->
+<section id="food" class="admin-section" style="display:none;">
+    <h1>Food Management (Sales per Item)</h1>
+    <div id="foodList"></div>
+</section>
+
+<script>
+function initAdmin(){
+    let role = localStorage.getItem("role");
+
+    if(role !== "admin"){
+        alert("Access denied!");
+        window.location.href = "login.html";
+    }
+
+    loadDashboard();
+    loadUsers();
+    loadFood();
+}
+
+/* TAB SWITCH */
+function showTab(tab){
+    document.querySelectorAll(".admin-section").forEach(sec => {
+        sec.style.display = "none";
+    });
+
+    document.getElementById(tab).style.display = "block";
+}
+
+/* LOGOUT */
+function logout(){
+    localStorage.removeItem("role");
+    window.location.href = "login.html";
+}
+
+/* ================= DASHBOARD ================= */
+function loadDashboard(){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let user = localStorage.getItem("user");
+    let sales = parseFloat(localStorage.getItem("sales")) || 0;
+
+    document.getElementById("orderCount").innerText = cart.length;
+    document.getElementById("userCount").innerText = user ? 1 : 0;
+    document.getElementById("salesTotal").innerText = "₱" + sales;
+}
+
+/* ================= USERS ================= */
+function loadUsers(){
+    let user = localStorage.getItem("user");
+
+    document.getElementById("userList").innerHTML =
+        user
+        ? `<div class="card"><h3>${user}</h3></div>`
+        : "<p>No users yet</p>";
+}
+
+/* ================= FOOD SALES ================= */
+function loadFood(){
+    let foodSales = JSON.parse(localStorage.getItem("foodSales")) || {};
+
+    let html = "";
+
+    for(let item in foodSales){
+        html += `
+            <div class="card">
+                <h3>${item}</h3>
+                <p>Sold: ${foodSales[item]}</p>
+            </div>
+        `;
+    }
+
+    document.getElementById("foodList").innerHTML =
+        html || "<p>No sales yet</p>";
+}
+</script>
+
+</body>
+</html>

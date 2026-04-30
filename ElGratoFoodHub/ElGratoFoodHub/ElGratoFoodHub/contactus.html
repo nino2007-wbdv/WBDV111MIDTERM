@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contact Us - El Grato</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h2>El Grato Food Hub</h2>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<section>
+    <h2>Contact Us</h2>
+    <p>We’d love to hear from you! 🍻</p>
+
+    <div class="box">
+
+        <input type="text" id="name" placeholder="Your Name">
+        <input type="email" id="email" placeholder="Your Email">
+        <textarea id="message" rows="4" placeholder="Your Message"></textarea>
+
+        <button onclick="sendMessage()">Send Message</button>
+
+        <hr style="margin:20px 0;">
+
+        <h3>Our Information</h3>
+
+        <p>📘 Facebook: El Grato Food Hub</p>
+        <p>📞 Phone: 0912-345-6789</p>
+        <p>📧 Gmail: elgrato@gmail.com</p>
+        <p>📍 Address: Quezon City, Philippines</p>
+
+    </div>
+</section>
+
+<script>
+function sendMessage(){
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let message = document.getElementById("message").value;
+
+    if(name === "" || email === "" || message === ""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    alert("Message sent successfully! ✅");
+
+    document.getElementById("name").value="";
+    document.getElementById("email").value="";
+    document.getElementById("message").value="";
+}
+</script>
+
+</body>
+</html>

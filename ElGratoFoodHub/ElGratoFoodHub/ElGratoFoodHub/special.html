@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Special Menu</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h2>Special Menu</h2>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="regular.html">Regular</a>
+        <a href="cart.html">Cart</a>
+    </nav>
+</header>
+
+<section class="cards">
+
+   <div class="card">
+    <img src="lechonbelly.jpeg">
+    <h3>Lechon Belly</h3>
+
+    <select id="lechon-size">
+        <option value="Small (3kg)-2300">Small (3kg) - ₱2300</option>
+        <option value="Medium (4kg)-3000">Medium (4kg) - ₱3000</option>
+        <option value="Large (5kg)-3700">Large (5kg) - ₱3700</option>
+        <option value="Extra Large (6kg)-4400">Extra Large (6kg) - ₱4400</option>
+    </select>
+
+    <button onclick="addSizedItem('Lechon Belly','lechon-size')">
+        Add to Cart
+    </button>
+</div>
+
+   <div class="card">
+    <img src="pata.jpeg">
+    <h3>Crispy Pata</h3>
+
+    <select id="pata-size">
+	    <option value="Small-500">Small - ₱500</option>
+        <option value="Medium-750">Medium - ₱750</option>
+        <option value="Large-850">Large - ₱850</option>
+        <option value="Jumbo-950">Jumbo - ₱950</option>
+        <option value="Super Jumbo-1050">Super Jumbo - ₱1050</option>
+    </select>
+
+    <button onclick="addSizedItem('Crispy Pata','pata-size')">
+        Add to Cart
+    </button>
+</div>
+
+	<div class="card">
+    <img src="pata.jpeg">
+    <h3>Crispy Pata (BUY 1 TAKE 1)</h3>
+
+    <select id="pata-b1t1">
+        <option value="Medium B1T1-750">Medium B1T1 - ₱750</option>
+        <option value="Large B1T1-850">Large B1T1 - ₱850</option>
+        <option value="Jumbo B1T1-950">Jumbo B1T1 - ₱950</option>
+        <option value="Super Jumbo B1T1-1050">Super Jumbo B1T1 - ₱1050</option>
+    </select>
+
+    <button onclick="addPromoItem('Crispy Pata','pata-b1t1')">
+        Add B1T1
+    </button>
+</div>
+
+	
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>

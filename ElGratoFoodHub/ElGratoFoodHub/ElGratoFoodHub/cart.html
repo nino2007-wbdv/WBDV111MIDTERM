@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cart</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h2>Your Cart</h2>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="javascript:void(0)" onclick="checkout()">Generate Receipt</a>
+    </nav>
+</header>
+
+<!-- CART ITEMS -->
+<div id="cartItems" class="cards"></div>
+
+<!-- DELIVERY FORM -->
+<div class="box">
+    <h3>Delivery Details</h3>
+
+    <input id="name" placeholder="Full Name">
+    <input id="address" placeholder="Delivery Address">
+    <input id="phone" placeholder="Phone Number">
+
+    <button onclick="placeOrder()">
+        Place Order
+    </button>
+
+    <button onclick="clearCart()" style="margin-top:10px; background:#444;">
+        Clear Cart
+    </button>
+</div>
+
+<script src="script.js"></script>
+
+<script>
+function loadCart(){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let container = document.getElementById("cartItems");
+
+    if(cart.length === 0){
+        container.innerHTML = "<h3 style='text-align:center'>Cart is empty</h3>";
+        return;
+    }
+
+    let total = 0;
+    container.innerHTML = "";
+
+    cart.forEach(item => {
+        total += item.price;
+
+        container.innerHTML += `
+            <div class="card">
+                <h3>${item.item}</h3>
+                <p>₱${item.price}</p>
+            </div>
+        `;
+    });
+
+    container.innerHTML += `
+        <div class="card">
+            <h3>Total: ₱${total}</h3>
+        </div>
+    `;
+}
+
+loadCart();
+
+
+/* PLACE ORDER */
+function placeOrder(){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let name = document.getElementById("name").value;
+    let address = document.getElementById("address").value;
+    let phone = document.getElementById("phone").value;
+
+    if(cart.length === 0){
+        alert("Cart is empty!");
+        return;
+    }
+
+    if(!name || !address || !phone){
+        alert("Please complete delivery details!");
+        return;
+    }
+
+    let total = 0;
+    let receipt = "===== ORDER RECEIPT =====\n\n";
+
+    cart.forEach(item => {
+        receipt += item.item + " - ₱" + item.price + "\n";
+        total += item.price;
+    });
+
+    receipt += "\nTOTAL: ₱" + total;
+    receipt += "\n\nDELIVER TO:\n" + name + "\n" + address + "\n" + phone;
+
+    alert("ORDER PLACED!\n\n" + receipt);
+
+    localStorage.removeItem("cart");
+    location.reload();
+}
+
+
+/* CLEAR CART */
+function clearCart(){
+    localStorage.removeItem("cart");
+    location.reload();
+}
+</script>
+
+</body>
+</html>
