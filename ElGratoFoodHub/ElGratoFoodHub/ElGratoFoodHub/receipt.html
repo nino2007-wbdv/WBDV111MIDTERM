@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Receipt</title>
+</head>
+<body>
+
+<h2>Receipt</h2>
+
+<div id="items"></div>
+<p id="total"></p>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let total = 0;
+
+cart.forEach(i=>{
+document.getElementById("items").innerHTML += 
+`<p>${i.name} - ₱${i.price}</p>`;
+total += i.price;
+});
+
+document.getElementById("total").innerText="Total: ₱"+total;
+
+// clear cart after receipt
+localStorage.removeItem("cart");
+</script>
+
+</body>
+</html>
