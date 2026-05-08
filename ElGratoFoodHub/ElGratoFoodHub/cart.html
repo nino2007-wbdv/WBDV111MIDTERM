@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cart</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.total{
+    text-align:right;
+    font-size:22px;
+    color:gold;
+    margin-top:20px;
+}
+
+.qty{
+    color:#aaa;
+    font-size:14px;
+}
+
+button{
+    margin-top:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<nav>
+<a href="index.html">HOME</a>
+<a href="menu.html">MENU</a>
+<a href="cart.html">CART </a>
+</nav>
+</header>
+
+<div class="page">
+<div class="card">
+
+<h1>YOUR CART</h1>
+
+<div id="cartList"></div>
+<div class="total" id="total"></div>
+
+<button onclick="checkout()">PROCEED TO CHECKOUT</button>
+
+</div>
+</div>
+
+<script>
+// ================= AUTH CHECK =================
+function getRole() {
+    return localStorage.getItem("role");
+}
+
+// ================= CART DATA =================
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let container = document.getElementById("cartList");
+let totalBox = document.getElementById("total");
+
+// ================= RENDER CART =================
+function renderCart() {
+    container.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        total += item.price * item.qty;
+
+        container.innerHTML += `
+        <div class="cart-item">
+            <div>
+                <b>${item.name}</b><br>
+                Size: ${item.size}<br>
+                Price: ₱${item.price}<br>
+                <span class="qty">Qty: ${item.qty}</span>
+            </div>
+            <button onclick="removeItem(${index})">REMOVE</button>
+        </div>
+        `;
+    });
+
+    totalBox.innerHTML = "TOTAL: ₱" + total;
+}
+
+// ================= REMOVE ITEM =================
+function removeItem(index){
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+}
+
+// ================= CHECKOUT (LOGIN REQUIRED) =================
+function checkout(){
+    if (!getRole()) {
+        alert("❌ Please log in first to proceed to checkout!");
+        window.location.href = "login.html";
+        return;
+    }
+
+    if(cart.length === 0){
+        alert("Cart is empty!");
+        return;
+    }
+
+    // TikTok-style checkout page
+    window.location.href = "checkout.html";
+}
+
+// ================= INITIALIZE =================
+renderCart();
+
+</script>
+
+</body>
+</html>

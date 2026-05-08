@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>El Grato Login</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f0f0f;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    height:100vh;
+}
+
+/* CARD */
+.container{
+
+    width:380px;
+
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    color:white;
+
+    box-shadow:0 0 30px rgba(0,0,0,0.6);
+}
+
+/* TITLE */
+h1{
+    text-align:center;
+    color:gold;
+    margin-bottom:20px;
+}
+
+/* INPUT */
+input{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+
+    border:none;
+    border-radius:10px;
+
+    background:rgba(255,255,255,0.1);
+    color:white;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:12px;
+
+    border:none;
+    border-radius:30px;
+
+    background:linear-gradient(45deg,#c8a951,#f5d27a);
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    margin-top:10px;
+}
+
+/* TEXT LINKS */
+.text{
+    text-align:center;
+    margin-top:15px;
+    color:#ccc;
+    font-size:14px;
+}
+
+.text span{
+    color:gold;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.text span:hover{
+    text-decoration:underline;
+}
+
+/* DEMO */
+.demo{
+    margin-top:20px;
+    text-align:center;
+    font-size:13px;
+    color:#aaa;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>EL GRATO</h1>
+
+<!-- LOGIN -->
+<div id="loginBox">
+
+<h2>Login</h2>
+
+<input type="text" id="loginUser" placeholder="Username">
+
+<input type="password" id="loginPass" placeholder="Password">
+
+<button onclick="login()">LOGIN</button>
+
+<div class="text">
+No account yet?
+<span onclick="showRegister()">REGISTER</span>
+</div>
+
+</div>
+
+
+<!-- REGISTER -->
+<div id="registerBox" style="display:none;">
+
+<h2>Register</h2>
+
+<input type="text" id="regUser" placeholder="Username">
+
+<input type="password" id="regPass" placeholder="Password">
+
+<button onclick="register()">REGISTER</button>
+
+<div class="text">
+Already have an account?
+<span onclick="showLogin()">LOGIN</span>
+</div>
+
+</div>
+
+
+<!-- DEMO -->
+<div class="demo">
+
+<p><b>DEMO USER:</b> demo / 1234</p>
+<p><b>DEMO ADMIN:</b> admin / admin123</p>
+
+</div>
+
+</div>
+
+<script>
+
+// SWITCH UI
+function showRegister(){
+document.getElementById("loginBox").style.display="none";
+document.getElementById("registerBox").style.display="block";
+}
+
+function showLogin(){
+document.getElementById("registerBox").style.display="none";
+document.getElementById("loginBox").style.display="block";
+}
+
+
+// REGISTER
+function register(){
+
+let u = document.getElementById("regUser").value;
+let p = document.getElementById("regPass").value;
+
+if(!u || !p){
+alert("Fill all fields");
+return;
+}
+
+let data = {
+username:u,
+password:p,
+role:"user"
+};
+
+localStorage.setItem(u, JSON.stringify(data));
+
+alert("Registered Successfully!");
+showLogin();
+}
+
+
+// LOGIN
+function login(){
+
+let u = document.getElementById("loginUser").value;
+let p = document.getElementById("loginPass").value;
+
+
+// DEMO USER
+if(u==="demo" && p==="1234"){
+localStorage.setItem("role","user");
+window.location.href="dashboard.html";
+return;
+}
+
+// DEMO ADMIN
+if(u==="admin" && p==="admin123"){
+localStorage.setItem("role","admin");
+window.location.href="dashboard.html";
+return;
+}
+
+
+// REGISTERED USERS
+let data = JSON.parse(localStorage.getItem(u));
+
+if(data && data.password === p){
+localStorage.setItem("role",data.role);
+window.location.href="dashboard.html";
+}else{
+alert("Invalid login");
+}
+
+}
+
+</script>
+
+</body>
+</html>
+

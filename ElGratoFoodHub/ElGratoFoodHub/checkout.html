@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Checkout</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+.payment-box{
+    margin-top:20px;
+    padding:15px;
+    background:rgba(255,255,255,0.05);
+    border-radius:12px;
+}
+
+label{
+    display:block;
+    margin:10px 0;
+    cursor:pointer;
+}
+
+.summary{
+    margin-top:20px;
+    border-top:1px solid rgba(255,255,255,0.2);
+    padding-top:15px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+<div class="card">
+
+<h1>CHECKOUT</h1>
+
+<div id="orderSummary"></div>
+
+<!-- PAYMENT METHOD -->
+<div class="payment-box">
+
+<h3>Mode of Payment</h3>
+
+<label>
+<input type="radio" name="payment" value="COD" checked>
+Cash on Delivery (COD)
+</label>
+
+<label>
+<input type="radio" name="payment" value="GCASH">
+GCash
+</label>
+
+<label>
+<input type="radio" name="payment" value="CARD">
+Credit / Debit Card
+</label>
+
+</div>
+
+<div class="summary">
+<h2 id="total"></h2>
+
+<button onclick="placeOrder()">PLACE ORDER</button>
+</div>
+
+</div>
+</div>
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let container = document.getElementById("orderSummary");
+let totalBox = document.getElementById("total");
+
+let total = 0;
+
+cart.forEach(item => {
+
+total += item.price * item.qty;
+
+container.innerHTML += `
+<p>
+<b>${item.name}</b> (${item.size}) x${item.qty} - ₱${item.price}
+</p>
+`;
+
+});
+
+totalBox.innerHTML = "TOTAL: ₱" + total;
+
+function placeOrder(){
+
+let payment = document.querySelector('input[name="payment"]:checked').value;
+
+if(cart.length === 0){
+alert("Cart is empty!");
+return;
+}
+
+alert(
+"Order Placed!\n\nPayment: " + payment +
+"\nTotal: ₱" + total
+);
+
+localStorage.removeItem("cart");
+
+window.location.href = "index.html";
+
+}
+
+</script>
+
+</body>
+</html>
